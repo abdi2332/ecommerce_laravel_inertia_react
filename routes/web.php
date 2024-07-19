@@ -1,6 +1,7 @@
 <?php
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\ProductController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -30,7 +31,9 @@ Route::middleware('auth')->group(function () {
 // Admin dashboard route with middleware
 Route::middleware(['auth','admin'])->group(function () {
     Route::get('/admin/dashboard', [HomeController::class, 'index'])->name('admin.dashboard');
-});
 
+
+});
+Route::resource('products', ProductController::class);
 // Include auth routes
 require __DIR__.'/auth.php';
