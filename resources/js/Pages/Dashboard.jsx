@@ -1,21 +1,22 @@
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
-import { Head } from '@inertiajs/react';
-import { Inertia } from '@inertiajs/inertia';  // Use this import for Inertia
+import { Head, Link } from '@inertiajs/react';
+import { Inertia } from '@inertiajs/inertia';
 import { useState } from 'react';
+import { FaShoppingCart } from 'react-icons/fa';
 
-export default function Dashboard({ auth, products }) {
+export default function Dashboard({ auth, products, cartCount }) {
     const [isAdding, setIsAdding] = useState(false);
     const [error, setError] = useState(null);
+    const [cartItemsCount, setCartItemsCount] = useState(cartCount);
 
     const addToCart = async (productId) => {
         setIsAdding(true);
         setError(null);
 
         try {
-            const response = await Inertia.post(route('cart.add'), { product_id: productId, quantity: 1 });
+            await Inertia.post(route('cart.add'), { product_id: productId, quantity: 1 });
 
-            // Optionally, you can check the response status or handle success if needed
-            console.log('Response:', response);
+            setCartItemsCount(cartItemsCount + 1);
         } catch (err) {
             console.error('Error adding to cart:', err);
             setError('An error occurred while adding the item to the cart.');
@@ -33,8 +34,18 @@ export default function Dashboard({ auth, products }) {
 
             <div className="py-12">
                 <div className="max-w-7xl mx-auto sm:px-6 lg:px-8">
-                    <div className="bg-white overflow-hidden shadow-sm sm:rounded-lg mb-8">
-                        <div className="p-6 text-gray-900 text-center text-2xl font-bold">Explore Our Products</div>
+                    <div className="bg-white overflow-hidden shadow-sm sm:rounded-lg mb-8 flex justify-between items-center p-6">
+                        <div className="text-gray-900 text-2xl font-bold">Explore Our Products</div>
+                        <div className="relative">
+                            <Link href={route('cart.view')}>
+                                <FaShoppingCart className="text-teal-600 text-3xl cursor-pointer" />
+                                {cartItemsCount > 0 && (
+                                    <span className="absolute top-0 right-0 bg-red-600 text-white rounded-full h-6 w-6 flex items-center justify-center text-xs translate-x-1/2 -translate-y-1/2">
+                                        {cartItemsCount}
+                                    </span>
+                                )}
+                            </Link>
+                        </div>
                     </div>
                     {error && <div className="text-red-500 mb-4">{error}</div>}
                     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">

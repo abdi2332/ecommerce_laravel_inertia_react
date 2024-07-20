@@ -1,21 +1,27 @@
 <?php
 
 namespace App\Http\Controllers;
-use App\Models\Product;
 use App\Models\Cart;
+use App\Models\Product;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 
 class UserController extends Controller
 {
-    public function dashboard()
+    public function dashboard(Request $request)
     {
+        // Retrieve all products to display on the dashboard
         $products = Product::all();
+        
+        // Count the number of items in the cart for the current user
+        $cartCount = Cart::where('user_id', $request->user()->id)->count();
+        
+        // Pass the products and cart count to the Inertia view
         return Inertia::render('Dashboard', [
             'products' => $products,
+            'cartCount' => $cartCount,
         ]);
     }
-
     public function addToCart(Request $request)
     {
         $request->validate([
@@ -43,14 +49,23 @@ class UserController extends Controller
         return redirect()->route('dashboard')->with('success', 'Product added to cart!');
     }
 
+
     public function viewCart(Request $request)
     {
-        $cartItems = Cart::where('user_id', $request->user()->id)
-            ->with('product')
+        // Get the cart items with the related product data
+        $cartItems = Cart::with('product')
+            ->where('user_id', $request->user()->id)
             ->get();
-
+    
+        // Pass the cart items to the Inertia view
         return Inertia::render('Cart', [
             'cartItems' => $cartItems,
         ]);
     }
+    
+
 }
+
+
+
+
