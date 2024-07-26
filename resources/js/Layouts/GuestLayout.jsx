@@ -1,17 +1,33 @@
-import ApplicationLogo from '@/Components/ApplicationLogo';
 import { Link } from '@inertiajs/react';
+import { FaShoppingCart } from 'react-icons/fa';
 
 export default function Guest({ children }) {
     return (
-        <div className="min-h-screen flex flex-col sm:justify-center items-center pt-6 sm:pt-0 bg-gray-100">
-            <div>
+        <div className="min-h-screen flex flex-col justify-center items-center pt-6 sm:pt-0 bg-gray-50">
+            <div className="flex flex-col items-center">
                 <Link href="/">
-                    <ApplicationLogo className="w-20 h-20 fill-current text-gray-500" />
+                    <FaShoppingCart className="text-6xl text-blue-600" />
                 </Link>
+                <h1 className="mt-4 text-3xl font-bold text-gray-700">Welcome to ShopMaster</h1>
             </div>
 
-            <div className="w-full sm:max-w-md mt-6 px-6 py-4 bg-white shadow-md overflow-hidden sm:rounded-lg">
+            <div className="w-full sm:max-w-md mt-6 px-6 py-8 bg-white shadow-lg rounded-lg">
                 {children}
+            </div>
+
+            <div className="mt-6 flex justify-center space-x-4">
+                <Link 
+                    href={route('login')} 
+                    className="text-blue-600 hover:text-blue-800 underline"
+                >
+                    Login
+                </Link>
+                <Link 
+                    href={route('register')} 
+                    className="text-blue-600 hover:text-blue-800 underline"
+                >
+                    Register
+                </Link>
             </div>
         </div>
     );

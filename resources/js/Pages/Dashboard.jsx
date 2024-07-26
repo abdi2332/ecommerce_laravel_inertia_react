@@ -50,7 +50,7 @@ export default function Dashboard({ auth, products, cartCount }) {
                     {error && <div className="text-red-500 mb-4">{error}</div>}
                     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
                         {products && products.map((product) => (
-                            <div key={product.id} className="bg-white border border-gray-200 rounded-lg shadow-lg overflow-hidden">
+                            <div key={product.id} className="bg-white border border-gray-200 rounded-lg shadow-lg overflow-hidden transform transition-transform hover:scale-105">
                                 <div className="relative">
                                     {product.image_url && (
                                         <img
@@ -69,7 +69,7 @@ export default function Dashboard({ auth, products, cartCount }) {
                                     <button
                                         onClick={() => addToCart(product.id)}
                                         disabled={isAdding}
-                                        className="bg-teal-600 text-white px-4 py-2 rounded hover:bg-teal-700 transition duration-200"
+                                        className="bg-teal-600 text-white px-4 py-2 rounded hover:bg-teal-700 transition duration-200 flex items-center justify-center"
                                     >
                                         {isAdding ? 'Adding...' : 'Add to Cart'}
                                     </button>
