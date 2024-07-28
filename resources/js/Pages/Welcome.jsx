@@ -33,7 +33,7 @@ export default function Welcome({ auth, laravelVersion, phpVersion }) {
   return (
     <>
       <Head title="Welcome" />
-      <div className="bg-white text-gray-600 work-sans leading-normal text-base tracking-normal">
+      <div className="bg-white text-gray-600 work-sans leading-normal text-base tracking-normal w-[98%] mx-auto">
         {/* Nav */}
         <Navbar/>
 
