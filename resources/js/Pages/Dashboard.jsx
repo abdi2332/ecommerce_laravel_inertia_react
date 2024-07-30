@@ -69,6 +69,7 @@ export default function Dashboard({ auth, products, cartCount }) {
                                             </svg>
                                         </div>
                                         <p className="pt-1 text-gray-900">£{item.price}</p>
+                                        <p className="pt-1 text-gray-900">£{item.name.slice(0,35)}</p>
                                     </a>
                                     {/* Add to Cart Button */}
                                     <button
