@@ -22,6 +22,9 @@ class UserController extends Controller
             'cartCount' => $cartCount,
         ]);
     }
+    public function welcome(){
+        $items=Product::all();
+    }
     public function addToCart(Request $request)
     {
         $request->validate([

@@ -5,8 +5,11 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\UserController;
 use Illuminate\Foundation\Application;
 use App\Http\Controllers\ProductController;
+use App\Models\Product;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
+
+
 
 // Welcome route
 Route::get('/', function () {

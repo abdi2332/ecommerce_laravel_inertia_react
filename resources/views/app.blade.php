@@ -6,29 +6,26 @@
 
         <title inertia>{{ config('app.name', 'Laravel') }}</title>
 
+        <!-- Favicon -->
+        <link rel="shortcut icon" href="{{ asset('img/fav.png') }}" type="image/x-icon">
+
         <!-- Fonts -->
         <link rel="preconnect" href="https://fonts.bunny.net">
         <link href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap" rel="stylesheet" />
 
-        <!-- External CSS and JS -->
-        <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
-        <link rel="stylesheet" href="{{ asset('css/tailwind.output.css') }}" />
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.min.css" />
+        <!-- Stylesheets -->
+        <link rel="stylesheet" href="https://kit-pro.fontawesome.com/releases/v5.12.1/css/pro.min.css">
+        <link rel="stylesheet" type="text/css" href="{{ asset('css/style.css') }}">
 
-        <!-- External Scripts -->
-        <script src="https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.x.x/dist/alpine.min.js" defer></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.min.js" defer></script>
-
-        <!-- Local Scripts -->
-        <script src="{{ asset('js/init-alpine.js') }}" defer></script>
-        <script src="{{ asset('js/charts-lines.js') }}" defer></script>
-        <script src="{{ asset('js/charts-pie.js') }}" defer></script>
-
-        <!-- Inertia & Vite -->
+        <!-- Scripts -->
         @routes
         @viteReactRefresh
         @vite(['resources/js/app.jsx', "resources/js/Pages/{$page['component']}.jsx"])
         @inertiaHead
+
+        <!-- External Scripts -->
+        <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
+        <script src="{{ asset('js/scripts.js') }}"></script>
     </head>
     <body class="font-sans antialiased">
         @inertia
