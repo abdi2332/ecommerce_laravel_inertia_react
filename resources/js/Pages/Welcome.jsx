@@ -5,21 +5,8 @@ import Footer from '@/Layouts/Footer';
 import Carousel from '@/Layouts/Carousel';
 import { useEffect, useState } from 'react';
 
-export default function Welcome({ auth, laravelVersion, phpVersion }) {
-  const[items,setItems]=useState([]);
-
-  const fakeData = async () =>{
-    const response=await fetch('https://fakestoreapi.com/products');
-    const data= await response.json();
-    setItems(data)
-  }
-
-  console.log(items)
-
-  useEffect(()=>{
-    fakeData();
-  },[])
-
+export default function Welcome({ auth, laravelVersion, phpVersion,products }) {
+  
   const handleImageError = () => {
     document.getElementById('screenshot-container')?.classList.add('!hidden');
     document.getElementById('docs-card')?.classList.add('!row-span-1');
@@ -64,11 +51,11 @@ export default function Welcome({ auth, laravelVersion, phpVersion }) {
           </nav>
           <div className="container mx-auto px-4">
       <div className="flex flex-wrap -mx-6">
-        {items.map(item => (
+        {products.map(item => (
           <div key={item.id} className="w-full md:w-1/3 xl:w-1/4 p-6 flex flex-col">
             <a href="#">
               <img 
-                src={item.image} 
+                src={item.image_url} 
                 alt={item.title} 
                 className="hover:grow hover:shadow-xl object-contain h-48 w-full" 
               />
