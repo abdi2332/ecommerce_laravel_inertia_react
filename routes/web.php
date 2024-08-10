@@ -1,13 +1,14 @@
 <?php
 
-use App\Http\Controllers\HomeController;
-use App\Http\Controllers\ProfileController;
-use App\Http\Controllers\UserController;
-use Illuminate\Foundation\Application;
-use App\Http\Controllers\ProductController;
+use Inertia\Inertia;
 use App\Models\Product;
 use Illuminate\Support\Facades\Route;
-use Inertia\Inertia;
+use Illuminate\Foundation\Application;
+use App\Http\Controllers\HomeController;
+use App\Http\Controllers\UserController;
+use App\Http\Controllers\ProductController;
+use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\InvitationController;
 
 
 
@@ -41,7 +42,10 @@ Route::middleware('auth')->group(function () {
 Route::middleware(['auth', 'admin'])->group(function () {
     Route::get('/admin/dashboard', [HomeController::class, 'index'])->name('admin.dashboard');
     Route::resource('products', ProductController::class);
+    Route::get('/invite', [InvitationController::class, 'index'])->name('invite');
+    Route::post('/admin/invite', [InvitationController::class, 'invite']);
 });
-
+Route::get('/invite/{token}', [InvitationController::class, 'accept'])->name('invite.accept');
+Route::post('/invite/{token}', [InvitationController::class, 'register']);
 // Include auth routes
 require __DIR__.'/auth.php';
