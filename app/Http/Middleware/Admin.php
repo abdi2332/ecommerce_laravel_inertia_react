@@ -16,11 +16,13 @@ class Admin
      */
     public function handle(Request $request, Closure $next): Response
     {
-        if (Auth::user()->usertype !== 'admin') {
-            return redirect()->route('dashboard');
-        }
+        $user = auth()->user();
 
-        return $next($request);
+    if (!$user || (!$user->isAdmin() && !$user->isRestrictedAdmin())) {
+        return redirect('dashboard')->with('error', 'You do not have permission to access this page.');
+    }
+
+    return $next($request);
     }
 }
 

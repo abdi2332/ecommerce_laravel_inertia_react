@@ -5,9 +5,11 @@ use App\Models\Product;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Foundation\Application;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\TeamController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\FacebookController;
 use App\Http\Controllers\InvitationController;
 
 
@@ -23,6 +25,10 @@ Route::get('/', function () {
         'products'=>$products,
     ]);
 })->name('home');
+
+Route::get('/email/verify', function () {
+    return Inertia::render('Auth/VerifyEmail');
+})->middleware('auth')->name('verification.notice');
 
 // User dashboard route with user middleware
 Route::middleware(['auth', 'verified', 'user'])->group(function () {
@@ -44,6 +50,13 @@ Route::middleware(['auth', 'admin'])->group(function () {
     Route::resource('products', ProductController::class);
     Route::get('/invite', [InvitationController::class, 'index'])->name('invite');
     Route::post('/admin/invite', [InvitationController::class, 'invite']);
+    Route::get('/Manage', [TeamController::class, 'index'])->name('manage');
+    Route::post('/admin/grant-privilege', [TeamController::class, 'grantPrivilege'])->name('team.grant');
+    Route::post('/admin/revoke-privilege', [TeamController::class, 'revokePrivilege'])->name('team.revoke');
+    Route::post('/admin/add-to-team', [TeamController::class, 'store'])->name('team.add');
+    Route::post('/facebook/post', [FacebookController::class, 'postToFacebook']);
+    Route::post('/facebook/post-view', [FacebookController::class, 'postViewAsImage']);
+    Route::get('/post',[FacebookController::class,'index'])->name('post');
 });
 Route::get('/invite/{token}', [InvitationController::class, 'accept'])->name('invite.accept');
 Route::post('/invite/{token}', [InvitationController::class, 'register']);

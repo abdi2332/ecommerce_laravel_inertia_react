@@ -4,6 +4,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Invitation;
+use App\Models\Team; // Import the Team model
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Mail;
@@ -14,13 +15,15 @@ use App\Models\User;
 
 class InvitationController extends Controller
 {
-    public function index(){
+    public function index()
+    {  
         return Inertia::render('Admin/InviteUser');
     }
+    
 
     public function invite(Request $request)
     {
-        if (!auth()->user()->can_invite) {
+        if (!auth()->user()->isAdmin()) {
             return redirect('/admin/dashboard')->withErrors('You do not have permission to invite others.');
         }
 
@@ -39,7 +42,7 @@ class InvitationController extends Controller
             'email' => $request->email,
             'token' => $token,
             'invited_by' => auth()->id(),
-            'expires_at' => Carbon::now()->addDays(2),  // Token expires in 2 days
+            'expires_at' => Carbon::now()->addDays(2), // Token expires in 2 days
         ]);
 
         Mail::to($request->email)->send(new InvitationMail($invitation));
@@ -58,7 +61,7 @@ class InvitationController extends Controller
             return redirect('/')->with('error', 'This invitation link is either invalid or has expired.');
         }
 
-        return inertia('Auth/Registertoken', ['invitation' => $invitation]);
+        return Inertia::render('Auth/Registertoken', ['invitation' => $invitation]);
     }
 
     public function register(Request $request, $token)
@@ -77,8 +80,13 @@ class InvitationController extends Controller
             'email' => $invitation->email,
             'name' => $request->name,
             'password' => bcrypt($request->password),
-            'usertype' => 'admin',
-            'can_invite' => false, 
+            'usertype' => User::USER_TYPE_RESTRICTED_ADMIN, // Set to Restricted Admin
+        ]);
+
+        // Create a team with the inviter and the new user
+        Team::create([
+            'inviter_id' => $invitation->invited_by,
+            'user_id' => $user->id,
         ]);
 
         $invitation->update(['accepted' => true]);

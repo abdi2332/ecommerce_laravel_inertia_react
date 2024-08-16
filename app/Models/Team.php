@@ -10,16 +10,16 @@ class Team extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['name'];
+    protected $fillable = ['inviter_id', 'user_id'];
 
-    public function invitations()
+    public function inviter()
     {
-        return $this->hasMany(Invitation::class);
+        return $this->belongsTo(User::class, 'inviter_id');
     }
 
-    public function users()
+    public function user()
     {
-        return $this->hasMany(User::class);
+        return $this->belongsTo(User::class, 'user_id');
     }
 }
 
