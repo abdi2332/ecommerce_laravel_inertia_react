@@ -74,7 +74,7 @@ export default function Dashboard({ auth, products, cartCount }) {
                                     {/* Add to Cart Button */}
                                     <button
                                         onClick={() => addToCart(item.id)}
-                                        className="absolute bottom-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-gray-800 text-white px-3 py-1 rounded hidden group-hover:block text-xs"
+                                        className="absolute bottom-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-gray-800 text-white px-3 py-1 rounded hidden group-hover:block hover:bg-slate-400 hover:text-black text-xs"
                                     >
                                         Add to Cart
                                     </button>

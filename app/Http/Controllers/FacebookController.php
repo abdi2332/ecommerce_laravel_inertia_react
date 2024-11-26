@@ -20,6 +20,16 @@ class FacebookController extends Controller
         return Inertia::render('Admin/FacebookPost');
     }
 
+    public function showPosts()
+{
+    $posts = $this->facebookService->getPagePosts(5); // Get the 5 most recent posts
+
+    return Inertia::render('Admin/FacebookPost', [
+        'posts' => $posts
+    ]);
+}
+
+
     public function postToFacebook(Request $request)
     {
         $message = $request->input('message');

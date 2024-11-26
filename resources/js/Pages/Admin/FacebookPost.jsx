@@ -1,7 +1,7 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Inertia } from '@inertiajs/inertia';
 
-function FacebookPost() {
+function FacebookPost({ posts }) {
     const [message, setMessage] = useState('');
     const [image, setImage] = useState(null);
     const [htmlTable, setHtmlTable] = useState('');
@@ -52,6 +52,26 @@ function FacebookPost() {
     return (
         <div className="max-w-3xl mx-auto p-6 bg-white shadow-lg rounded-lg">
             <h1 className="text-3xl font-semibold mb-6">Post to Facebook</h1>
+
+            {/* Display Facebook posts */}
+            <div className="mb-6">
+                <h2 className="text-2xl font-semibold">Recent Facebook Posts</h2>
+                {posts && posts.length > 0 ? (
+    posts.map((post) => (
+        <div key={post.id} className="post">
+            <p>{post.message}</p>
+            {post.image_url && (
+                <img src={post.image_url} alt="Post Image" className="post-image" />
+            )}
+            {/* Add other post details here */}
+        </div>
+    ))
+) : (
+    <p>No posts available.</p>
+)}
+
+            </div>
+
             <form onSubmit={handleSubmit} className="space-y-4">
                 <textarea
                     value={message}

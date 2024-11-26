@@ -12,7 +12,7 @@ class ProductController extends Controller
     public function index()
     {
         $products = Product::all();
-        return Inertia::render('Products/Manage', [
+        return Inertia::render('Admin/Products/Manage', [
             'products' => $products,
         ]);
     }

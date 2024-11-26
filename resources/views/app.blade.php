@@ -27,7 +27,7 @@
         <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
         <script src="{{ asset('js/scripts.js') }}"></script>
     </head>
-    <body class="font-sans antialiased">
+    <body class="font-sans antialiased dark:bg-gray-900" >
         @inertia
     </body>
 </html>

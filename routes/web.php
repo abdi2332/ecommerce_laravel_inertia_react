@@ -11,13 +11,12 @@ use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\FacebookController;
 use App\Http\Controllers\InvitationController;
-
-
+use App\Http\Controllers\UserInviterController;
 
 // Welcome route
 Route::get('/', function () {
     $products=Product::all();
-    return Inertia::render('Welcome', [
+    return Inertia::render('Dashboard', [
         'canLogin' => Route::has('login'),
         'canRegister' => Route::has('register'),
         'laravelVersion' => Application::VERSION,
@@ -31,10 +30,11 @@ Route::get('/email/verify', function () {
 })->middleware('auth')->name('verification.notice');
 
 // User dashboard route with user middleware
-Route::middleware(['auth', 'verified', 'user'])->group(function () {
+Route::middleware(['auth', 'verified','user'])->group(function () {
     Route::get('/dashboard', [UserController::class, 'dashboard'])->name('dashboard');
     Route::post('/cart/add', [UserController::class, 'addToCart'])->name('cart.add');
     Route::get('/cart', [UserController::class, 'viewCart'])->name('cart.view');
+    Route::get('/invite',[UserInviterController::class, 'index'])->name('invite');
 });
 
 // Authenticated routes
@@ -56,7 +56,7 @@ Route::middleware(['auth', 'admin'])->group(function () {
     Route::post('/admin/add-to-team', [TeamController::class, 'store'])->name('team.add');
     Route::post('/facebook/post', [FacebookController::class, 'postToFacebook']);
     Route::post('/facebook/post-view', [FacebookController::class, 'postViewAsImage']);
-    Route::get('/post',[FacebookController::class,'index'])->name('post');
+    Route::get('/post',[FacebookController::class,'showPosts'])->name('post');
 });
 Route::get('/invite/{token}', [InvitationController::class, 'accept'])->name('invite.accept');
 Route::post('/invite/{token}', [InvitationController::class, 'register']);

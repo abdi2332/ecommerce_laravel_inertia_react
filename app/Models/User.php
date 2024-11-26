@@ -43,6 +43,25 @@ class User extends Authenticatable
         return $this->hasOne(Team::class, 'user_id', 'id');
     }
     
+    public function getTeamCartItems()
+{
+    // Get the current user's ID
+    $userId = $this->id;
+
+    // Get all user IDs in the same team as the current user
+    $teamUserIds = Team::where('inviter_id', $userId)
+        ->orWhere('user_id', $userId)
+        ->pluck('user_id')
+        ->toArray();
+
+    // Add the inviter's ID to the list
+    $teamUserIds[] = $userId;
+
+    // Get the cart items for all users in the team
+    return Cart::with('product')
+        ->whereIn('user_id', $teamUserIds)
+        ->get();
+}
 
     protected $hidden = [
         'password',

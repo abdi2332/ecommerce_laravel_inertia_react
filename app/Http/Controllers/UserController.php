@@ -2,9 +2,10 @@
 
 namespace App\Http\Controllers;
 use App\Models\Cart;
+use App\Models\Team;
+use Inertia\Inertia;
 use App\Models\Product;
 use Illuminate\Http\Request;
-use Inertia\Inertia;
 
 class UserController extends Controller
 {
@@ -55,16 +56,19 @@ class UserController extends Controller
 
     public function viewCart(Request $request)
     {
-        // Get the cart items with the related product data
-        $cartItems = Cart::with('product')
-            ->where('user_id', $request->user()->id)
-            ->get();
+        // Get the current user
+        $user = $request->user();
+    
+        // Get the cart items for all users in the same team
+        $cartItems = $user->getTeamCartItems();
     
         // Pass the cart items to the Inertia view
         return Inertia::render('Cart', [
             'cartItems' => $cartItems,
         ]);
     }
+    
+
     
 
 }
