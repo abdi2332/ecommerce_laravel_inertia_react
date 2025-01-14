@@ -7,12 +7,13 @@ import useDarkModeStore from '@/store/darkModeStore';
 import downarrow from '../../../../images/keyboard_arrow_down 2.png'
 import { FaEdit, FaTrash } from 'react-icons/fa';
 
-const Manage = ({ products,auth }) => {
+const Manage = ({ products,auth,categories }) => {
     const [editingProduct, setEditingProduct] = useState(null);
     const { data, setData, post, put, reset, errors } = useForm({
         id: '',
         name: '',
         price: '',
+        category_id: '',
         description: '',
         image_url: null
     });
@@ -35,6 +36,7 @@ const Manage = ({ products,auth }) => {
         const formData = new FormData();
         formData.append('name', data.name);
         formData.append('price', data.price);
+        formData.append('category_id', data.category_id);
         formData.append('description', data.description);
         if (data.image_url) {
             formData.append('image_url', data.image_url);
@@ -104,13 +106,17 @@ const Manage = ({ products,auth }) => {
                   required=""/>
               </div>
               <div className='w-5/6'>
-                  <label for="category" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Category</label>
-                  <select id="category" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500">
-                      <option selected="">Select category</option>
-                      <option value="TV">TV/Monitors</option>
-                      <option value="PC">PC</option>
-                      <option value="GA">Gaming/Console</option>
-                      <option value="PH">Phones</option>
+                  <label for="category" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Category</label>   
+                  <select 
+                  onChange={(e)=>setData('category',e.target.value)}
+                  value={data.category}
+                  name='category'
+                  id="category" 
+                  class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500">
+                   <option selected="">Select category</option>
+                      {categories.map(item => (
+                      <option value={item.id} key={item.id}>{item.name}</option>  
+                 ))}
                   </select>
               </div> 
               <div class="sm:col-span-2">
@@ -158,7 +164,7 @@ const Manage = ({ products,auth }) => {
              </div>
              <div>
                <p className="font-semibold text-[10px] xx:text-xs">{item.name.slice(0,15)}</p>
-               <p className="text-[10px] text-gray-600 xx:text-xs">10x Developer</p>
+               <p className="text-[10px] text-gray-600 xx:text-xs">{item.category?item.category.name:""}</p>
              </div>
            </div>
          </td>

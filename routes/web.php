@@ -16,7 +16,7 @@ use App\Http\Controllers\UserInviterController;
 // Welcome route
 Route::get('/', function () {
     $products=Product::all();
-    return Inertia::render('Dashboard', [
+    return Inertia::render('Welcome', [
         'canLogin' => Route::has('login'),
         'canRegister' => Route::has('register'),
         'laravelVersion' => Application::VERSION,
@@ -36,6 +36,7 @@ Route::middleware(['auth', 'verified','user'])->group(function () {
     Route::get('/cart', [UserController::class, 'viewCart'])->name('cart.view');
     Route::get('/invite',[UserInviterController::class, 'index'])->name('invite');
 });
+
 
 // Authenticated routes
 Route::middleware('auth')->group(function () {

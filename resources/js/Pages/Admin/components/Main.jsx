@@ -7,8 +7,11 @@ import categories from '../../../../images/mdi-light_folder-multiple.png'
 import shoe from '../../../../images/image 4.png'
 import other from '../../../../images/image 3.png'
 import router from '../../../../images/image 1.png'
+import { FaEdit, FaTrash } from 'react-icons/fa';
 
-const Main = () => {
+const Main = ({count,productcount,items,recentItems}) => {
+
+  
   return (
     <div className='bg-gray-100 dark:bg-gray-900 h-full flex flex-col min-h-full '>
 
@@ -30,7 +33,7 @@ const Main = () => {
             <img className='px-4 h-5 lg:h-8 dark:invert dark:brightness-0' src={customers} alt="" />
             <div>
               <p className='text-xs font-lato text-gray-900 dark:text-white'>Customers</p>
-              <p className='text-xs lg:text-sm font-extrabold text-gray-900 dark:text-white'>10345</p>
+              <p className='text-xs lg:text-sm font-extrabold text-gray-900 dark:text-white'>{count}</p>
             </div>
           </div>
           <div className='flex justify-center items-center flex-grow'>
@@ -56,7 +59,7 @@ const Main = () => {
             <img className='px-4 h-5 lg:h-8 dark:invert dark:brightness-0' src={products} alt="" />
             <div>
               <p className='text-xs font-lato text-gray-900 dark:text-white'>Managables</p>
-              <p className='text-xs lg:text-sm font-extrabold text-gray-900 dark:text-white'>10345</p>
+              <p className='text-xs lg:text-sm font-extrabold text-gray-900 dark:text-white'>{productcount}</p>
             </div>
           </div>
           <div className='flex justify-center items-center flex-grow'>
@@ -81,187 +84,44 @@ const Main = () => {
 
   {/* Another section below */}
   <div className="w-full overflow-x-auto ">
-    <table className="w-full whitespace-no-wrap">
-      <thead>
-        <tr className="text-[10px] xx:text-xs tracking-wide text-left text-gray-600 dark:text-gray-200 uppercase border-b bg-gray-200 dark:bg-gray-700">
-          <th className="px-4 py-3 text-[10px] xx:text-xs">Client</th>
-          <th className="px-4 py-3 text-[10px] xx:text-xs">Amount</th>
-          <th className="px-4 py-3 text-[10px] xx:text-xs">Status</th>
-          <th className="px-4 py-3 text-[10px] xx:text-xs">Date</th>
-        </tr>
-      </thead>
-      <tbody className="bg-white divide-y dark:bg-gray-800">
-        <tr className="text-gray-700 dark:text-gray-300">
-          <td className="px-4 py-3 text-[10px] xx:text-xs">
+  <table className="w-full whitespace-no-wrap">
+       <thead>
+         <tr className="text-[10px] xx:text-xs tracking-wide text-left text-gray-600 dark:text-gray-200 uppercase border-b bg-gray-200 dark:bg-gray-700">
+           <th className="px-4 py-3 text-[10px] xx:text-xs">Item</th>
+           <th className="px-4 py-3 text-[10px] xx:text-xs">Price</th>
+           <th className="px-4 py-3 text-[10px] xx:text-xs">Status</th>
+           <th className="px-4 py-3 text-[10px] xx:text-xs">Action</th>
+         </tr>
+ 
+       </thead>
+       <tbody className="bg-white divide-y dark:bg-gray-900">
+        
+         {items.map(item => (
+            <tr key={item.id} className="text-gray-700 dark:text-gray-300">
+            <td  className="px-4 py-3 text-[10px] xx:text-xs">
             <div className="flex items-center text-[10px] xx:text-xs">
               <div className="relative hidden w-8 h-8 mr-3 rounded-full md:block">
-                <img src={downarrow} className="object-cover w-full h-full rounded-full" alt="" />
+                <img   src={item.image_url} alt={item.title} className="object-cover w-full h-full rounded-full" />
                 <div className="absolute inset-0 rounded-full shadow-inner" aria-hidden="true"></div>
               </div>
               <div>
-                <p className="font-semibold text-[10px] xx:text-xs">Hans Burger</p>
-                <p className="text-[10px] text-gray-600 xx:text-xs">10x Developer</p>
+                <p className="font-semibold text-[10px] xx:text-xs">{item.name.slice(0,15)}</p>
+                <p className="text-[10px] text-gray-600 xx:text-xs">{item.category?item.category.name:""}</p>
               </div>
             </div>
           </td>
-          <td className="px-4 py-3 text-[10px] xx:text-xs">$ 863.45</td>
-          <td className="px-4 py-3 text-[10px] xx:text-xs">
-            <span className="px-2 py-1 font-semibold leading-tight text-green-700 bg-green-100 dark:bg-green-900 dark:text-green-100 rounded-full">
-              Approved
-            </span>
-          </td>
-          <td className="px-4 py-3 text-[10px] xx:text-xs">6/10/2020</td>
-        </tr>
-        <tr className="text-gray-700 dark:text-gray-300">
-          <td className="px-4 py-3 text-[10px] xx:text-xs">
-            <div className="flex items-center text-[10px] xx:text-xs">
-              <div className="relative hidden w-8 h-8 mr-3 rounded-full md:block">
-                <img src={downarrow} className="object-cover w-full h-full rounded-full" alt="" />
-                <div className="absolute inset-0 rounded-full shadow-inner" aria-hidden="true"></div>
-              </div>
-              <div>
-                <p className="font-semibold text-[10px] xx:text-xs">Hans Burger</p>
-                <p className="text-[10px] text-gray-600 xx:text-xs">10x Developer</p>
-              </div>
-            </div>
-          </td>
-          <td className="px-4 py-3 text-[10px] xx:text-xs">$ 863.45</td>
-          <td className="px-4 py-3 text-[10px] xx:text-xs">
-            <span className="px-2 py-1 font-semibold leading-tight text-green-700 bg-green-100 dark:bg-green-900 dark:text-green-100 rounded-full">
-              Approved
-            </span>
-          </td>
-          <td className="px-4 py-3 text-[10px] xx:text-xs">6/10/2020</td>
-        </tr>
-        <tr className="text-gray-700 dark:text-gray-300">
-          <td className="px-4 py-3 text-[10px] xx:text-xs">
-            <div className="flex items-center text-[10px] xx:text-xs">
-              <div className="relative hidden w-8 h-8 mr-3 rounded-full md:block">
-                <img src={downarrow} className="object-cover w-full h-full rounded-full" alt="" />
-                <div className="absolute inset-0 rounded-full shadow-inner" aria-hidden="true"></div>
-              </div>
-              <div>
-                <p className="font-semibold text-[10px] xx:text-xs">Hans Burger</p>
-                <p className="text-[10px] text-gray-600 xx:text-xs">10x Developer</p>
-              </div>
-            </div>
-          </td>
-          <td className="px-4 py-3 text-[10px] xx:text-xs">$ 863.45</td>
-          <td className="px-4 py-3 text-[10px] xx:text-xs">
-            <span className="px-2 py-1 font-semibold leading-tight text-green-700 bg-green-100 dark:bg-green-900 dark:text-green-100 rounded-full">
-              Approved
-            </span>
-          </td>
-          <td className="px-4 py-3 text-[10px] xx:text-xs">6/10/2020</td>
-        </tr>
-        <tr className="text-gray-700 dark:text-gray-300">
-          <td className="px-4 py-3 text-[10px] xx:text-xs">
-            <div className="flex items-center text-[10px] xx:text-xs">
-              <div className="relative hidden w-8 h-8 mr-3 rounded-full md:block">
-                <img src={downarrow} className="object-cover w-full h-full rounded-full" alt="" />
-                <div className="absolute inset-0 rounded-full shadow-inner" aria-hidden="true"></div>
-              </div>
-              <div>
-                <p className="font-semibold text-[10px] xx:text-xs">Hans Burger</p>
-                <p className="text-[10px] text-gray-600 xx:text-xs">10x Developer</p>
-              </div>
-            </div>
-          </td>
-          <td className="px-4 py-3 text-[10px] xx:text-xs">$ 863.45</td>
-          <td className="px-4 py-3 text-[10px] xx:text-xs">
-            <span className="px-2 py-1 font-semibold leading-tight text-green-700 bg-green-100 dark:bg-green-900 dark:text-green-100 rounded-full">
-              Approved
-            </span>
-          </td>
-          <td className="px-4 py-3 text-[10px] xx:text-xs">6/10/2020</td>
-        </tr>
-        <tr className="text-gray-700 dark:text-gray-300">
-          <td className="px-4 py-3 text-[10px] xx:text-xs">
-            <div className="flex items-center text-[10px] xx:text-xs">
-              <div className="relative hidden w-8 h-8 mr-3 rounded-full md:block">
-                <img src={downarrow} className="object-cover w-full h-full rounded-full" alt="" />
-                <div className="absolute inset-0 rounded-full shadow-inner" aria-hidden="true"></div>
-              </div>
-              <div>
-                <p className="font-semibold text-[10px] xx:text-xs">Hans Burger</p>
-                <p className="text-[10px] text-gray-600 xx:text-xs">10x Developer</p>
-              </div>
-            </div>
-          </td>
-          <td className="px-4 py-3 text-[10px] xx:text-xs">$ 863.45</td>
-          <td className="px-4 py-3 text-[10px] xx:text-xs">
-            <span className="px-2 py-1 font-semibold leading-tight text-green-700 bg-green-100 dark:bg-green-900 dark:text-green-100 rounded-full">
-              Approved
-            </span>
-          </td>
-          <td className="px-4 py-3 text-[10px] xx:text-xs">6/10/2020</td>
-        </tr>
-        <tr className="text-gray-700 dark:text-gray-300">
-          <td className="px-4 py-3 text-[10px] xx:text-xs">
-            <div className="flex items-center text-[10px] xx:text-xs">
-              <div className="relative hidden w-8 h-8 mr-3 rounded-full md:block">
-                <img src={downarrow} className="object-cover w-full h-full rounded-full" alt="" />
-                <div className="absolute inset-0 rounded-full shadow-inner" aria-hidden="true"></div>
-              </div>
-              <div>
-                <p className="font-semibold text-[10px] xx:text-xs">Hans Burger</p>
-                <p className="text-[10px] text-gray-600 xx:text-xs">10x Developer</p>
-              </div>
-            </div>
-          </td>
-          <td className="px-4 py-3 text-[10px] xx:text-xs">$ 863.45</td>
-          <td className="px-4 py-3 text-[10px] xx:text-xs">
-            <span className="px-2 py-1 font-semibold leading-tight text-green-700 bg-green-100 dark:bg-green-900 dark:text-green-100 rounded-full">
-              Approved
-            </span>
-          </td>
-          <td className="px-4 py-3 text-[10px] xx:text-xs">6/10/2020</td>
-        </tr>
-        <tr className="text-gray-700 dark:text-gray-300">
-          <td className="px-4 py-3 text-[10px] xx:text-xs">
-            <div className="flex items-center text-[10px] xx:text-xs">
-              <div className="relative hidden w-8 h-8 mr-3 rounded-full md:block">
-                <img src={downarrow} className="object-cover w-full h-full rounded-full" alt="" />
-                <div className="absolute inset-0 rounded-full shadow-inner" aria-hidden="true"></div>
-              </div>
-              <div>
-                <p className="font-semibold text-[10px] xx:text-xs">Hans Burger</p>
-                <p className="text-[10px] text-gray-600 xx:text-xs">10x Developer</p>
-              </div>
-            </div>
-          </td>
-          <td className="px-4 py-3 text-[10px] xx:text-xs">$ 863.45</td>
-          <td className="px-4 py-3 text-[10px] xx:text-xs">
-            <span className="px-2 py-1 font-semibold leading-tight text-green-700 bg-green-100 dark:bg-green-900 dark:text-green-100 rounded-full">
-              Approved
-            </span>
-          </td>
-          <td className="px-4 py-3 text-[10px] xx:text-xs">6/10/2020</td>
-        </tr>
-        <tr className="text-gray-700 dark:text-gray-300">
-          <td className="px-4 py-3 text-[10px] xx:text-xs">
-            <div className="flex items-center text-[10px] xx:text-xs">
-              <div className="relative hidden w-8 h-8 mr-3 rounded-full md:block">
-                <img src={downarrow} className="object-cover w-full h-full rounded-full" alt="" />
-                <div className="absolute inset-0 rounded-full shadow-inner" aria-hidden="true"></div>
-              </div>
-              <div>
-                <p className="font-semibold text-[10px] xx:text-xs">Hans Burger</p>
-                <p className="text-[10px] text-gray-600 xx:text-xs">10x Developer</p>
-              </div>
-            </div>
-          </td>
-          <td className="px-4 py-3 text-[10px] xx:text-xs">$ 863.45</td>
-          <td className="px-4 py-3 text-[10px] xx:text-xs">
-            <span className="px-2 py-1 font-semibold leading-tight text-green-700 bg-green-100 dark:bg-green-900 dark:text-green-100 rounded-full">
-              Approved
-            </span>
-          </td>
-          <td className="px-4 py-3 text-[10px] xx:text-xs">6/10/2020</td>
-        </tr>
-        {/* Other rows here */}
-      </tbody>
-    </table>
+           <td className="px-4 py-3 text-[10px] xx:text-xs">$ {item.price}</td>
+           <td className="px-4 py-3 text-[10px] xx:text-xs">
+             <span className="px-2 py-1 font-semibold leading-tight text-green-700 bg-green-100 dark:bg-green-900 dark:text-green-100 rounded-full">
+               Approved
+             </span>
+           </td>
+           <td className="px-4 py-3 text-[10px] xx:text-xs"><span className='flex pl-2'><FaEdit className='mr-2 cursor-pointer' onClick={()=>handleEdit(item)}/><FaTrash className='cursor-pointer' onClick={()=>handleDelete(item.id)}/></span></td>
+         </tr>
+         ))}
+         {/* Other rows here */}
+       </tbody>
+     </table>
   </div>
 </div>
 
@@ -280,7 +140,7 @@ const Main = () => {
         <p className='text-sm pb-3 text-gray-700 dark:text-gray-300'>price</p>
       </div>
 
-      {/* Product 1 */}
+ 
       <div className='flex justify-between pb-4'>
         <div className='flex'>
           <img className='h-7 pr-2' src={shoe} alt="products" />
@@ -288,7 +148,7 @@ const Main = () => {
         </div>
         <div><p className='text-sm font-bold text-gray-900 dark:text-white'>13.99999$</p></div>
       </div>
-
+ 
       <hr className='border-gray-300 dark:border-gray-600 my-2' />
 
       {/* Product 2 */}
@@ -326,35 +186,21 @@ const Main = () => {
       </div>
 
       {/* Recent Product 1 */}
+
+      {recentItems.map(item => (
       <div className='flex justify-between pb-4'>
         <div className='flex'>
-          <img className='h-7 pr-2' src={shoe} alt="products" />
-          <p className='text-sm font-bold text-gray-900 dark:text-white'>adidas shoes</p>
+          <img className='h-7 w-10 pr-2' src={item.image_url} alt="products" />
+          <p className='text-sm font-bold text-gray-900 dark:text-white'>{item.name.slice(0,15)}</p>
         </div>
-        <div><p className='text-sm font-bold text-gray-900 dark:text-white'>9.99999$</p></div>
-      </div>
+        <div><p className='text-sm font-bold text-gray-900 dark:text-white'>{item.price}</p></div>
+      </div>))}
 
       <hr className='border-gray-300 dark:border-gray-600 my-2' />
 
       {/* Recent Product 2 */}
-      <div className='flex justify-between pb-4'>
-        <div className='flex'>
-          <img className='h-7 pr-2' src={shoe} alt="products" />
-          <p className='text-sm font-bold text-gray-900 dark:text-white'>puma shoes</p>
-        </div>
-        <div><p className='text-sm font-bold text-gray-900 dark:text-white'>12.99999$</p></div>
-      </div>
-
-      <hr className='border-gray-300 dark:border-gray-600 my-2' />
-
-      {/* Recent Product 3 */}
-      <div className='flex justify-between pb-4'>
-        <div className='flex'>
-          <img className='h-7 pr-2' src={shoe} alt="products" />
-          <p className='text-sm font-bold text-gray-900 dark:text-white'>reebok shoes</p>
-        </div>
-        <div><p className='text-sm font-bold text-gray-900 dark:text-white'>14.99999$</p></div>
-      </div>
+    
+    
     </div>
   </div>
 </div>

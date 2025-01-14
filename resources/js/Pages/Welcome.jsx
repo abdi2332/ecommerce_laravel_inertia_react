@@ -14,6 +14,8 @@ export default function Welcome({ auth, laravelVersion, phpVersion,products }) {
     document.getElementById('background')?.classList.add('!hidden');
   };
 
+
+
   return (
     <>
       <div className="bg-white text-gray-600 work-sans leading-normal text-base tracking-normal w-[98%] mx-auto">
