@@ -6,6 +6,7 @@ use App\Models\Team;
 use Inertia\Inertia;
 use App\Models\Product;
 use Illuminate\Http\Request;
+use App\Events\CartUpdated;
 
 class UserController extends Controller
 {
@@ -33,6 +34,8 @@ class UserController extends Controller
             'quantity' => 'required|integer|min:1',
         ]);
 
+        $userId = auth()->id();
+        $cart = null;
         $cartItem = Cart::where('user_id', $request->user()->id)
             ->where('product_id', $request->product_id)
             ->first();
@@ -50,7 +53,11 @@ class UserController extends Controller
             ]);
         }
 
-        return redirect()->route('dashboard')->with('success', 'Product added to cart!');
+        broadcast(new CartUpdated($userId, $cartItem))->toOthers();
+
+        return Inertia::render('Cart', [
+            'cartItems' => $cartItem,
+        ]);
     }
 
 
@@ -67,9 +74,7 @@ class UserController extends Controller
             'cartItems' => $cartItems,
         ]);
     }
-    
-
-    
+      
 
 }
 

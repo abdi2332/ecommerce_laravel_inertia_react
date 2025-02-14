@@ -1,9 +1,10 @@
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 import { Head, Link } from '@inertiajs/react';
 import { Inertia } from '@inertiajs/inertia';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Footer from '@/Layouts/Footer';
 import Carousel from '@/Layouts/Carousel';
+import echo from "../echo";
 
 export default function Dashboard({ auth, products, cartCount }) {
     const [isAdding, setIsAdding] = useState(false);
@@ -24,6 +25,16 @@ export default function Dashboard({ auth, products, cartCount }) {
             setIsAdding(false);
         }
     };
+
+    useEffect(() => {
+        echo.channel("cart").listen(".cart.updated", () => {
+            setCartItemsCount(prevCount => prevCount + 1);
+        });
+
+        return () => {
+            echo.leaveChannel("cart");
+        };
+    }, []);
 
     return (
         <AuthenticatedLayout user={auth.user}
