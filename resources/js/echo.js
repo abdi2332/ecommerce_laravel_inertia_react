@@ -13,7 +13,7 @@ window.Echo = new Echo({
     enabledTransports: ['ws', 'wss'],
 });
 
-window.Echo.channel("delivery").listen("PackageSent", (event) => {
+window.Echo.channel("cart.{userId}").listen("CartUpdated", (event) => {
     console.log(event);
 });
 

@@ -16,8 +16,13 @@ export default function Dashboard({ auth, products, cartCount }) {
         setError(null);
 
         try {
-            await Inertia.post(route('cart.add'), { product_id: productId, quantity: 1 });
-            setCartItemsCount(cartItemsCount + 1);
+            Inertia.post(route('cart.add'), { product_id: productId, quantity: 1 },
+            {
+                preserveScroll: true,
+                
+            }
+        );
+         
         } catch (err) {
             console.error('Error adding to cart:', err);
             setError('An error occurred while adding the item to the cart.');
@@ -27,14 +32,18 @@ export default function Dashboard({ auth, products, cartCount }) {
     };
 
     useEffect(() => {
-        echo.channel("cart").listen(".cart.updated", () => {
-            setCartItemsCount(prevCount => prevCount + 1);
-        });
-
+        window.authUserId = auth.user.id; //
+        
+        echo.private(`cart.${auth.user.id}`)
+            .listen('.cart.updated', (event) => {
+                console.log('Cart updated', event);
+                console.log(event.cartCount); 
+                setCartItemsCount(event.cartCount);
+            });
         return () => {
-            echo.leaveChannel("cart");
+            echo.leaveChannel(`cart.${auth.user.id}`);
         };
-    }, []);
+     }, [auth.user.id]);
 
     return (
         <AuthenticatedLayout user={auth.user}

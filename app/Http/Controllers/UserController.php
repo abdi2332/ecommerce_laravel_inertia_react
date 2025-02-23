@@ -14,9 +14,11 @@ class UserController extends Controller
     {
         // Retrieve all products to display on the dashboard
         $products = Product::all();
+
+        $userId = auth()->id();
         
         // Count the number of items in the cart for the current user
-        $cartCount = Cart::where('user_id', $request->user()->id)->count();
+        $cartCount = Cart::where('user_id', $userId)->sum('quantity');
         
         // Pass the products and cart count to the Inertia view
         return Inertia::render('Dashboard', [
@@ -53,11 +55,14 @@ class UserController extends Controller
             ]);
         }
 
-        broadcast(new CartUpdated($userId, $cartItem))->toOthers();
+        $cartItemCount = Cart::where('user_id', $userId)->sum('quantity');
+
+        broadcast(new CartUpdated($userId, $cartItemCount))->toOthers();
 
         return Inertia::render('Cart', [
             'cartItems' => $cartItem,
         ]);
+
     }
 
 

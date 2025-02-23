@@ -9,8 +9,9 @@ use Illuminate\Broadcasting\PrivateChannel;
 use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
+use Illuminate\Contracts\Broadcasting\ShouldBroadcastNow;
 
-class CartUpdated
+class CartUpdated implements ShouldBroadcastNow
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
@@ -19,13 +20,13 @@ class CartUpdated
      */
     use serializesModels;
 
-    public $cartItem;
     public $userId;
+    public $cartItemCount;
 
-    public function __construct($userId, $cartItem)
+    public function __construct($userId, $cartItemCount)
     {
-       $this->cartItem = $cartItem;
        $this->userId = $userId;
+      $this->cartItemCount = $cartItemCount;
 
     }
 
@@ -36,12 +37,16 @@ class CartUpdated
      */
     public function broadcastOn()
     {
-        return new PrivateChannel('cart.'. auth()->id());
+        return new PrivateChannel("cart.{$this->userId}");
+    }
+
+    public function broadcastAs(){
+        return 'cart.updated';
     }
 
     public function broadcastWith(){
         return [
-            'cart'=> $this->cart,
+            'cartCount'=> $this->cartItemCount,
         ];
     }
 }
