@@ -12,6 +12,7 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\FacebookController;
 use App\Http\Controllers\InvitationController;
 use App\Http\Controllers\UserInviterController;
+use Illuminate\Support\Facades\Broadcast;
 
 // Welcome route
 Route::get('/', function () {
@@ -61,5 +62,8 @@ Route::middleware(['auth', 'admin'])->group(function () {
 });
 Route::get('/invite/{token}', [InvitationController::class, 'accept'])->name('invite.accept');
 Route::post('/invite/{token}', [InvitationController::class, 'register']);
+
+Broadcast::routes();
+
 // Include auth routes
 require __DIR__.'/auth.php';

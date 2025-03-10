@@ -1,8 +1,14 @@
 import { Head } from '@inertiajs/react';
 import { useState, useEffect } from 'react';
+import { FaTrash } from 'react-icons/fa';
 
 export default function Cart({ cartItems }) {
     const [totalPrice, setTotalPrice] = useState(0);
+
+
+    const removeFromCart =(id)=>{
+        
+    }
 
     useEffect(() => {
         const calculateTotal = () => {
@@ -44,6 +50,9 @@ export default function Cart({ cartItems }) {
                                             <p className="text-gray-600">Quantity: {item.quantity}</p>
                                             <p className="text-gray-600">Price: ${item.product.price}</p>
                                         </div>
+                                        <button className="text-red-500" title="Remove from Cart" onClick={()=>remoc}>
+                                            <FaTrash />
+                                        </button>
                                     </div>
                                 ))}
                             </div>
